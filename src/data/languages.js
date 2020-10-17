@@ -1,5 +1,8 @@
 module.exports = [
     'HTML',
     'JAVASCRIPT',
-    'PYTHON'
+    'PYTHON',
+    'CSS',
+    'SQL',
+    'PHP'
 ]

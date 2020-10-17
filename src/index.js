@@ -4,6 +4,10 @@ const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
 const python =  require('./data/python');
 const html =  require('./data/html');
+const javascript =  require('./data/javascript');
+const css =  require('./data/css');
+const sql =  require('./data/sql');
+const php =  require('./data/php');
 const langs = require('./data/languages');
 
 bot.login(TOKEN);
@@ -22,16 +26,16 @@ bot.on('message', msg => {
         msg.reply('Error: missing param, please input a language!')
     } else {
 
-        let selector = langs.find(lang => {
+        let selector
+        langs.map(lang => {
             if (lang === msg.content.split(' ')[1].toUpperCase()) {
-                return true
-            } else {
-                return false
+                selector = true
             }
         })
 
-        if (selector && msg.content.split(' ').length > 1) {
+        if (msg.content[3] && selector) {
             let lang = msg.content.split(' ')[1].toUpperCase()
+            console.log(lang)
             let searchParams = msg.content.toLowerCase().trimEnd().split(' ')
 
             switch (lang) {
@@ -47,13 +51,16 @@ bot.on('message', msg => {
                     })
 
                    if (results.length > 0) {
-                       let replyMsg = results.map(link => {
-                           return link.url
-                       })
-                       msg.reply(replyMsg)
+                       let replyMsg = ''
+                        results.map(link => {
+                            replyMsg += link.url + '\n'
+                        })
+                        msg.reply('this is what I found:\n' + replyMsg)
                    } else {
-                       msg.reply('Sorry I was unable to find that!')
-                   }                    break;
+                       msg.reply('Sorry I was unable to find that! Try !Coder help.')
+                   }                    
+                   break;
+
                 case 'PYTHON':
                     var results = []
                     searchParams.map((element, index) => {
@@ -66,19 +73,88 @@ bot.on('message', msg => {
                     })
 
                    if (results.length > 0) {
-                       let replyMsg = results.map(link => {
-                           return link.url
+                       let replyMsg = ''
+                       results.map(link => {
+                            replyMsg += link.url + '\n'
                        })
-                       msg.reply(replyMsg)
+                       msg.reply('this is what I found:\n' + replyMsg)
                    } else {
-                       msg.reply('Sorry I was unable to find that!')
+                       msg.reply('Sorry I was unable to find that! Try !Coder help.')
                    }
+                   break;
+
+                case 'CSS':
+                    var results = []
+                    searchParams.map((element, index) => {
+                        css.map(link => {
+                            let name = link.name.toLowerCase().split(' ')
+                            if (index > 1 && name.indexOf(element) > -1) {
+                                results.push(link)
+                            }
+                        })
+                    })
+
+                   if (results.length > 0) {
+                       let replyMsg = ''
+                       results.map(link => {
+                            replyMsg += link.url + '\n'
+                       })
+                       msg.reply('this is what I found:\n' + replyMsg)
+                   } else {
+                       msg.reply('Sorry I was unable to find that! Try !Coder help.')
+                   }
+                   break;
+
+                case 'SQL':
+                    var results = []
+                    searchParams.map((element, index) => {
+                        sql.map(link => {
+                            let name = link.name.toLowerCase().split(' ')
+                            if (index > 1 && name.indexOf(element) > -1) {
+                                results.push(link)
+                            }
+                        })
+                    })
+
+                   if (results.length > 0) {
+                       let replyMsg = ''
+                       results.map(link => {
+                            replyMsg += link.url + '\n'
+                       })
+                       msg.reply('this is what I found:\n' + replyMsg)
+                   } else {
+                       msg.reply('Sorry I was unable to find that! Try !Coder help.')
+                   }
+                   break;
+
+                case 'PHP':
+                    var results = []
+                    searchParams.map((element, index) => {
+                        php.map(link => {
+                            let name = link.name.toLowerCase().split(' ')
+                            if (index > 1 && name.indexOf(element) > -1) {
+                                results.push(link)
+                            }
+                        })
+                    })
+
+                   if (results.length > 0) {
+                       let replyMsg = ''
+                       results.map(link => {
+                            replyMsg += link.url + '\n'
+                       })
+                       msg.reply('this is what I found:\n' + replyMsg)
+                   } else {
+                       msg.reply('Sorry I was unable to find that! Try !Coder help.')
+                   }
+                   break;
+                   
                 default:
                     break;
             
                 }
         } else {
-            msg.reply('Sorry I couldn\'t seem to find that!')
+            msg.reply('I couldnt find that language.')
         }
 
         }
